@@ -1,33 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Navigate } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
 
-const PrivateAdminRoute = ({
-  userInfo: { isAuthenticated, userInfo },
-  children,
-}) => {
-  useEffect(() => {
-    console.log("AUTH ", isAuthenticated, userInfo);
-  }, [isAuthenticated]);
-  console.log(isAuthenticated, userInfo?.isAdmin);
-
-  if (isAuthenticated === false) {
-    return <Navigate to="/login" />;
-  } else {
-    if (userInfo?.isAdmin === true) {
+let isAdmin = Boolean(localStorage.isAdmin);
+let isAuthenticated = Boolean(localStorage.isAuthenticated);
+const PrivateAdminRoute = ({ children }) => {
+  if (isAuthenticated === true) {
+    if (isAdmin === true) {
       return children;
+    } else {
+      return <Navigate to="/" />;
     }
-    return <Navigate to="/" />;
+  } else {
+    return <Navigate to="/login" />;
   }
 };
 
-PrivateAdminRoute.propTypes = {
-  userInfo: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  userInfo: state.userInfo,
-});
-
-export default connect(mapStateToProps)(PrivateAdminRoute);
+export default PrivateAdminRoute;
