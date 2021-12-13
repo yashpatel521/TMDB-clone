@@ -1,11 +1,14 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-let isAdmin = Boolean(localStorage.isAdmin);
-let isAuthenticated = Boolean(localStorage.isAuthenticated);
-const PrivateAdminRoute = ({ children }) => {
+const PrivateAdminRoute = ({
+  userInfo: { isAuthenticated, userInfo },
+  children,
+}) => {
   if (isAuthenticated === true) {
-    if (isAdmin === true) {
+    if (userInfo.isAdmin === true) {
       return children;
     } else {
       return <Navigate to="/" />;
@@ -15,4 +18,12 @@ const PrivateAdminRoute = ({ children }) => {
   }
 };
 
-export default PrivateAdminRoute;
+PrivateAdminRoute.propTypes = {
+  userInfo: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  userInfo: state.userInfo,
+});
+
+export default connect(mapStateToProps)(PrivateAdminRoute);

@@ -3,6 +3,8 @@ import { Col, Container, Row, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { logout } from "../actions/UserActions";
 import { Link, useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 var loginStyles = {
   loginContainer: {
@@ -14,7 +16,7 @@ var loginStyles = {
   },
 };
 
-const Home = () => {
+const Home = ({ userInfo: { isAuthenticated, userInfo } }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -40,11 +42,13 @@ const Home = () => {
               <Link to="/profile">Profile</Link>
             </Button>{" "}
           </Col>
-          <Col>
-            <Button variant="danger">
-              <Link to="/admincheck">admincheck</Link>
-            </Button>{" "}
-          </Col>
+          {userInfo.isAdmin && (
+            <Col>
+              <Button variant="danger">
+                <Link to="/admincheck">admincheck</Link>
+              </Button>
+            </Col>
+          )}
           <Col>
             <Button variant="danger">
               <Link to="/PopularMovies">PopularMovies</Link>
@@ -56,4 +60,11 @@ const Home = () => {
   );
 };
 
-export default Home;
+Home.propTypes = {
+  userInfo: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  userInfo: state.userInfo,
+});
+export default connect(mapStateToProps)(Home);

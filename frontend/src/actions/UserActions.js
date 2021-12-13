@@ -34,8 +34,6 @@ export const login = (email, password) => async (dispatch) => {
     );
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
     localStorage.setItem("token", data.token);
-    localStorage.setItem("isAdmin", data.isAdmin);
-    localStorage.setItem("isAuthenticated", true);
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
@@ -49,8 +47,6 @@ export const login = (email, password) => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
   localStorage.removeItem("token");
-  localStorage.removeItem("isAdmin");
-  localStorage.removeItem("isAuthenticated");
   dispatch({ type: USER_LOGOUT });
 };
 
@@ -66,8 +62,6 @@ export const loadUser = () => async (dispatch) => {
 
     const { data } = await axios.post(`/api/users/userInfo`, config);
     dispatch({ type: USER_LOAD_SUCCESS, payload: data });
-    localStorage.setItem("isAdmin", data.isAdmin);
-    localStorage.setItem("isAuthenticated", true);
   } catch (error) {
     dispatch({
       type: USER_LOAD_FAIL,

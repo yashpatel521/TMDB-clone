@@ -19,6 +19,7 @@ import Loading from "./components/Loading";
 
 if (localStorage.token) setAuthToken(localStorage.token);
 if (localStorage.token) store.dispatch(loadUser());
+
 const App = ({ isAuthenticated, loading, error }) => {
   useEffect(() => {
     if (!isAuthenticated && error) {
@@ -29,50 +30,52 @@ const App = ({ isAuthenticated, loading, error }) => {
     <>
       {loading && <Loading />}
       <ToastSet />
-      <BrowserRouter>
-        <Fragment>
-          <Routes>
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/register" element={<Register />} />
-            <Route
-              exact
-              path="/"
-              element={
-                <PrivateRoute>
-                  <Home />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              exact
-              path="/admincheck"
-              element={
-                <PrivateAdminRoute>
-                  <AdminCheck />
-                </PrivateAdminRoute>
-              }
-            />
-            <Route
-              exact
-              path="/profile"
-              element={
-                <PrivateRoute>
-                  <Profile />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              exact
-              path="/PopularMovies"
-              element={
-                <PrivateRoute>
-                  <PopularMovies />
-                </PrivateRoute>
-              }
-            />
-          </Routes>
-        </Fragment>
-      </BrowserRouter>
+      {!loading && (
+        <BrowserRouter>
+          <Fragment>
+            <Routes>
+              <Route exact path="/login" element={<Login />} />
+              <Route exact path="/register" element={<Register />} />
+              <Route
+                exact
+                path="/"
+                element={
+                  <PrivateRoute>
+                    <Home />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                exact
+                path="/admincheck"
+                element={
+                  <PrivateAdminRoute>
+                    <AdminCheck />
+                  </PrivateAdminRoute>
+                }
+              />
+              <Route
+                exact
+                path="/profile"
+                element={
+                  <PrivateRoute>
+                    <Profile />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                exact
+                path="/PopularMovies"
+                element={
+                  <PrivateRoute>
+                    <PopularMovies />
+                  </PrivateRoute>
+                }
+              />
+            </Routes>
+          </Fragment>
+        </BrowserRouter>
+      )}
     </>
   );
 };
