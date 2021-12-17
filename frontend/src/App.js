@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import PrivateRoute from "./components/Routing";
 import PrivateAdminRoute from "./components/PrivateAdminRoute";
-import Home from "./screens/Home";
+import Home from "./screens/Home/Home";
 import Login from "./screens/Login/Login";
 import Profile from "./screens/Profile/Profile";
 import setAuthToken from "./utils/SetAuthToken";
@@ -14,13 +14,22 @@ import Register from "./screens/Register/Register";
 import PropTypes from "prop-types";
 import ToastSet, { toastSet } from "./components/ToastSet";
 import AdminCheck from "./screens/adminCheck";
-import PopularMovies from "./screens/Movies/PopularMovies";
-import Loading from "./components/Loading";
+import Loading from "./components/Loading/Loading";
+import Header from "./components/Header/Header";
+import Search from "./screens/Search/Search";
+import WebFont from "webfontloader";
 
 if (localStorage.token) setAuthToken(localStorage.token);
 if (localStorage.token) store.dispatch(loadUser());
 
 const App = ({ isAuthenticated, loading, error }) => {
+  useEffect(() => {
+    WebFont.load({
+      google: {
+        families: ["Droid Sans", "Chilanka", "Source Sans Pro", " sans-serif"],
+      },
+    });
+  });
   useEffect(() => {
     if (!isAuthenticated && error) {
       toastSet(error, "error");
@@ -32,6 +41,7 @@ const App = ({ isAuthenticated, loading, error }) => {
       <ToastSet />
       {!loading && (
         <BrowserRouter>
+          <Header />
           <Fragment>
             <Routes>
               <Route exact path="/login" element={<Login />} />
@@ -63,12 +73,20 @@ const App = ({ isAuthenticated, loading, error }) => {
                   </PrivateRoute>
                 }
               />
-              <Route
+              {/* <Route
                 exact
-                path="/PopularMovies"
+                path="/movies"
                 element={
                   <PrivateRoute>
                     <PopularMovies />
+                  </PrivateRoute>
+                }
+              /> */}
+              <Route
+                path="/Search"
+                element={
+                  <PrivateRoute>
+                    <Search />
                   </PrivateRoute>
                 }
               />

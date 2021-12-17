@@ -1,0 +1,40 @@
+div[data-arrow="left"] {
+  display: none;
+}
+
+div[data-arrow="right"] {
+  display: none;
+}
+
+.cardMain {
+  width: 190px;
+  height: auto;
+  padding: 2px;
+  margin: 20px;
+  border: none !important;
+  background-color: transparent !important;
+}
+
+.cardImg {
+  width: auto;
+  height: 240px;
+  border-radius: 20px !important;
+}
+
+.cardBody {
+  padding: 10px 0px 0px 10px !important;
+}
+
+.cardTitle {
+  font-weight: bolder !important;
+  margin-bottom: 6px !important;
+}
+
+.progressBar {
+  width: 40px;
+  height: 40px;
+  margin-top: -23px;
+  margin-left: 6px;
+  background: black;
+  border-radius: 50%;
+}
