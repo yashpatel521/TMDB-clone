@@ -1,5 +1,6 @@
 export const moviesConstants = {
   TmdbApiKey: "96c9281d41bddbb69746bd576c8a5eb2",
+  region: "IN|US",
   moviesNotFetch: "Please try to reload or wait for some time...!!!",
 };
 

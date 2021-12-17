@@ -42,6 +42,7 @@ const CardCarosoul = (props) => {
   const [movieData, setMovieData] = useState(null);
   const [movieLoading, setMovieLoading] = useState(true);
   const api_key = moviesConstants.TmdbApiKey;
+  const region = moviesConstants.region;
   const APIsCall = async (props) => {
     try {
       const config = {
@@ -49,12 +50,13 @@ const CardCarosoul = (props) => {
           "Content-type": "application/json",
         },
       };
-
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/${props.route}`,
-        { params: { api_key } },
-        config
-      );
+      let url = null;
+      if (props.params) {
+        url = `https://api.themoviedb.org/3/${props.route}?api_key=${api_key}&region=${region}&${props.params}`;
+      } else {
+        url = `https://api.themoviedb.org/3/${props.route}?api_key=${api_key}&region=${region}`;
+      }
+      const response = await axios.get(url, config);
       setMovieData(response.data.results);
       setMovieLoading(false);
     } catch (error) {

@@ -62,3 +62,9 @@
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
   } */
+.trendingBg .TabsContainer {
+  background-image: url("./trending.svg") !important;
+  background-position: 0% 156px !important;
+  background-size: 100% !important;
+  background-repeat: no-repeat !important;
+}
