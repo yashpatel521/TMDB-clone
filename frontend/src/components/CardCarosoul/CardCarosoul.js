@@ -1,12 +1,18 @@
 import { ScrollingCarousel } from "@trendyol-js/react-carousel";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import dateFormat from "dateformat";
 import { Card } from "react-bootstrap";
-import { getMoviesImage } from "../../constants/MoviesConstant";
+import {
+  getMoviesImage,
+  moviesConstants,
+} from "../../constants/MoviesConstant";
 import "./CardCarosoul.css";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import Loading from "../Loading/Loading";
+import { toastSet } from "../ToastSet";
 
 const pathColor = (len) => {
   if (len < 50 || len === 50) {
@@ -31,13 +37,43 @@ const trailPathColor = (len) => {
     return "#173527";
   }
 };
+
 const CardCarosoul = (props) => {
+  const [movieData, setMovieData] = useState(null);
+  const [movieLoading, setMovieLoading] = useState(true);
+  const api_key = moviesConstants.TmdbApiKey;
+  const APIsCall = async (props) => {
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      const response = await axios.get(
+        `https://api.themoviedb.org/3/${props.route}`,
+        { params: { api_key } },
+        config
+      );
+      setMovieData(response.data.results);
+      setMovieLoading(false);
+    } catch (error) {
+      setMovieLoading(false);
+      toastSet(moviesConstants.moviesNotFetch, "warning");
+    }
+  };
+  useEffect(() => {
+    APIsCall(props);
+  }, []);
+
   let i = 0;
   return (
     <>
+      {movieLoading && <Loading />}
       <ScrollingCarousel>
-        {props.data &&
-          props.data.map((movie) => (
+        {movieData &&
+          !movieLoading &&
+          movieData.map((movie) => (
             <Link to={`/movie/${movie.id}`} key={i++}>
               <Card className="cardMain" key={i++}>
                 <Card.Img

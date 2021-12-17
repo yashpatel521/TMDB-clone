@@ -1,23 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { moviesAPIsCall } from "../constants/MoviesConstant";
+import React from "react";
 
 const AdminCheck = () => {
-  const [state, setState] = useState({
-    isLoading: true,
-    data: null,
-    error: null,
-  });
-
-  useEffect(() => {
-    setState(moviesAPIsCall("movie/now_playing"));
-  }, []);
-  console.log(state.isLoading);
-
-  useEffect(() => {
-    if (state.isLoading) {
-      console.log(state.isLoading);
-    }
-  }, [state.isLoading]);
+  console.log(this.state);
   return (
     <div style={{ marginTop: "80px" }}>
       <h1>Admin Route</h1>
